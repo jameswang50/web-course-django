@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="{% url 'user_update' pk=user.pk %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+<input type="submit" value="Saqlash">
+</form>
+
+{% endblock content %}

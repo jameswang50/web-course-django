@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h1>Tanlov qo'shish: {{ savol.question }}</h1>
+
+{% if 'savolga-tanlov-yaratish' in request.get_full_path %}
+
+<form action="{% url 'poll:savolga_tanlov' savol_id=savol.id %}" method="post">
+    {% csrf_token %}
+    <label for="choice">Tanlov matni</label><br>
+    <input type="text" name="choice" id="choice" value="{{ question }}" required> <br>  
+    {% if message %}
+    <p class="text-danger">{{ message }}</p>
+    {% endif %}
+
+    <label for="is_correct">
+        <input type="checkbox" name="is_correct" id="is_correct">
+        <span>To'g'ri</span>
+    </label> <br>
+    <input type="submit" class="btn btn-outline-info mt-2" value="Saqlash">
+</form>
+{% else %}
+<form action="." method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    
+    <input type="submit" class="btn btn-outline-info mt-2" value="Saqlash">
+</form>
+{% endif %}
+{% endblock content %}

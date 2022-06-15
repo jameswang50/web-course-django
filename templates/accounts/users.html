@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>USERS</h1>
+
+<ol>
+    {% for user in users %}
+    <li><a href="{% url 'user_update' pk=user.id %}">{{ user.username }} | {{ user.email }} </a></li>
+    {% endfor %}
+</ol>
+
+{% endblock content %}

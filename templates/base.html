@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="https://use.fontawesome.com/2e730ea1da.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav container">
+            <a class="nav-link active d-flex align-items-center" href="{% url 'home' %}"><i class="fa fa-home mx-2 fa-2x"></i>BOSH SAHIFA</a>
+            {% if user.is_superuser %}
+            <a class="nav-link" href="{% url 'users' %}">Foydalanuvchilar</a>
+            <a class="nav-link" href="{% url 'groups' %}">Guruhlar</a>
+            {% endif %}
+            <a class="nav-link" href="{% url 'poll:savollar' %}">Savollar</a>
+            <a class="nav-link" href="{% url 'new:list' %}">Yangiliklar</a>
+            {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'new:my_news' %}">Mening Yangiliklarim</a>
+            <a class="nav-link" href="{% url 'userprofile:logout' %}">Tizimdan chiqish</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'userprofile:register' %}">Ro'yhatdan o'tish</a>
+            <a class="nav-link" href="{% url 'userprofile:login' %}">Tizimga kirish</a>
+            {% endif %}
+          </div>
+          <a class="nav-link d-flex align-items-center" href="#"> <i class="fa fa-user mx-2 fa-2x"></i> {{ request.user.username }}</a>
+        </div>
+    </nav>
+
+    <!-- bu ko'rinishdagi istalgan templatedagi  -->
+    <!-- yozuv, django template tag deyiladi -->
+    <div class="container">
+      {% if messages %}
+      <ul class="messages list-unstyled">
+          {% for message in messages %}
+          <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+        {% block content %}
+
+        {% endblock content %}
+    </div>
+    <script src="{% static 'js/bootstrap.jquery.min.js' %}"></script>
+</body>
+</html>
