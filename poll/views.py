@@ -8,12 +8,7 @@ def savollar(request):
     # bu yerda question modelidagi barcha objectlar olinadi
     savollar = Question.objects.all()
     return render(
-        request, 'questions/savollar.html', {
-            'savollar': savollar,
-            "form": ChoiceForm(),
-            "choices": Choice.object.all()
-            }
-        )
+        request, 'questions/savollar.html', {'savollar': savollar})
 
 
 
