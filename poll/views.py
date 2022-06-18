@@ -14,9 +14,6 @@ def savollar(request):
         )
 
 
-
-
-
 def savol_detail(request, id):
     # bu yerda Question modelidan id si parameterda kelayotgan
     # id ga teng bo'lgan object olinadi
