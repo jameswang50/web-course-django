@@ -4,3 +4,6 @@ from .models import Carusel
 
 
 admin.site.register(Carusel)
+
+
+
