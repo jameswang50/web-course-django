@@ -13,7 +13,7 @@ def savollar(request):
             "form": ChoiceForm(),
             "choices": Choice.object.all()
             }
-        )
+        )    
 
 
 def savol_detail(request, id):
