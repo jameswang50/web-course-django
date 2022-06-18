@@ -1,7 +1,7 @@
 # bu faylt git dasturi qaysi papka yoki fayllarni 
 # monitor qilish kerak emasligini ko'rsatadi
 
-# db.sqlite3
-# media/
+db.sqlite3
+media/
 
-!./
+!extra/
