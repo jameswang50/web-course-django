@@ -9,6 +9,8 @@ from .views import (
     my_create,
     my_update,
     my_detail,
+    like,
+    dislike,
 )
 
 
@@ -22,4 +24,6 @@ urlpatterns = [
     path('my-create/', my_create, name="my_create"),
     path('my-update/<int:id>/', my_update, name="my_update"),
     path('my-detail/<int:id>/', my_detail, name="my_detail"),
+    path('like/<int:id>/', like, name="like"),
+    path('dislike/<int:id>/', dislike, name="dislike"),
 ]

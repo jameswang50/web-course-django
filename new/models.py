@@ -1,9 +1,9 @@
+from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-# bu class Model histoblanadi django tilida
-# baza dannix tilida tablitsa hisoblanadi
+
 class New(models.Model):
     # Many To One Relation
     author = models.ForeignKey(
@@ -32,7 +32,7 @@ class Comment(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True
-        )
+    )
     post = models.ForeignKey(
         New,
         verbose_name="Post",
@@ -40,7 +40,7 @@ class Comment(models.Model):
         related_name="comments",
         null=True,
         blank=True
-        )
+    )
     body = models.TextField("Izoh")
     date = models.DateField(default=timezone.now)
 
@@ -50,3 +50,55 @@ class Comment(models.Model):
     class Meta:
         verbose_name = "izoh"
         verbose_name_plural = "Izohlar"
+
+
+class Like(models.Model):
+    post = models.ForeignKey(
+        New,
+        verbose_name="Post",
+        on_delete=models.SET_NULL,
+        related_name="likes",
+        null=True,
+        blank=True
+    )
+    user = models.ForeignKey(
+        User,
+        verbose_name="Muallif",
+        on_delete=models.SET_NULL,
+        related_name="likes",
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = "yoqimli"
+        verbose_name_plural = "Yoqimlilar"
+
+    def __str__(self):
+        return f"{self.user.username}ga {self.post.title} yoqdi"
+
+
+class Dislike(models.Model):
+    post = models.ForeignKey(
+        New,
+        verbose_name="Post",
+        on_delete=models.SET_NULL,
+        related_name="dislikes",
+        null=True,
+        blank=True
+    )
+    user = models.ForeignKey(
+        User,
+        verbose_name="Muallif",
+        on_delete=models.SET_NULL,
+        related_name="dislikes",
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = "yoqimsiz"
+        verbose_name_plural = "Yoqimsizlar"
+
+    def __str__(self):
+        return f"{self.user.username}ga {self.post.title} yoqmadi"
