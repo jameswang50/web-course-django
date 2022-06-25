@@ -8,6 +8,9 @@ class Question(models.Model):
     def __str__(self):
         return self.question
 
+    # def __repr__(self):
+    #     return self.question
+
 
 class Choice(models.Model):
     # ForeignKey - Many To One relation - Bir nechta -> bittaga

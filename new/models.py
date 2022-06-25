@@ -24,6 +24,15 @@ class New(models.Model):
     def __str__(self):
         return self.title
 
+    def dislike_count(self):
+        return self.dislikes.count()
+
+    def like_count(self):
+        return self.likes.count()
+
+    def yangimi(self):
+        return (timezone.now() - self.created).days <= 3
+
 
 class Comment(models.Model):
     author = models.ForeignKey(

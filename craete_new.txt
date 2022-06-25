@@ -1,0 +1,6 @@
+BEGIN;
+--
+-- Create model Question
+--
+CREATE TABLE "poll_question" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "question" varchar(255) NOT NULL);
+COMMIT;
