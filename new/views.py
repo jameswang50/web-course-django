@@ -1,21 +1,17 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render, get_object_or_404
-
+from django.views.generic import ListView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import New, Like, Dislike
 from .forms import NewForm, NewFormMine, CommentForm
 
 
-def news_list(request):
-    news = New.objects.all().order_by('-created')
-    # bu yerda New modelidagi barcha object, yani ikki yoki undan ortiq
-    # objectni oldik
-    # bu narsa QUERYSET deyiladi
-    # queryset uchun model metod ishlamaydi
+class News(ListView):
+    queryset = New.objects.all().order_by('-created')
+    template_name = 'new/news_list.html'
 
 
-    # context dictionary bu templatega berib yuboriladigan o'zgaruvchilar to'plami
-    context = {'news': news}
-    return render(request, 'new/news_list.html', context)
+news_list = News.as_view()
 
 
 def news_detail(request, id):
@@ -42,26 +38,40 @@ def news_detail(request, id):
     return render(request, 'new/news_detail.html', {'new': new, "form": form})
 
 
-def create(request):
-    form = NewForm()
-    if request.method == 'POST':
-        form = NewForm(request.POST, request.FILES)
-        if form.is_valid():
-            new = form.save()
-            return redirect("new:list")
+class NewCreate(CreateView):
+    model = New
+    form_class = NewForm
 
-    return render(request, 'new/create.html', {"form": form})
-
-
-def remove(request, id):
-    new = get_object_or_404(New, id=id)
-    new.delete()
-    return redirect("new:list")
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context["hello"] = "Hello World"
+        # context
+        return context
 
 
-def my_news(request):
-    news = New.objects.filter(author=request.user).order_by('-created')
-    return render(request, 'new/my_news.html', {'news': news})
+create = NewCreate.as_view()
+
+
+class RemoveView(DeleteView):
+    model = New
+    success_url: str = "/news/my-news/"
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
+remove = RemoveView.as_view()
+
+
+class MyNews(LoginRequiredMixin, ListView):
+    model = New
+    template_name: str = "new/my_news.html"
+
+    def get_queryset(self):
+        return self.model.objects.filter(author=self.request.user).order_by('-created')
+
+
+my_news = MyNews.as_view()
 
 
 def my_create(request):
