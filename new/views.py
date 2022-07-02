@@ -9,6 +9,10 @@ from .forms import NewForm, NewFormMine, CommentForm
 class News(ListView):
     queryset = New.objects.all().order_by('-created')
     template_name = 'new/news_list.html'
+    paginate_by: int = 6
+
+    def get(self, *args, **kwargs):
+        return super().get(*args, **kwargs)
 
 
 news_list = News.as_view()
@@ -18,7 +22,6 @@ def news_detail(request, id):
     new = get_object_or_404(New, id=id)
     # bitta newni olayapmiz New degan modelning barcha objectlari ichidan
     # shu narsa OBJECT deyiladi.
-    # 
     # model metodlari faqat object uchun ishlaydi 
 
     form = CommentForm()

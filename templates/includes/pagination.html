@@ -1,0 +1,27 @@
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+                <a
+                    class="page-link"
+                    href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+          </li>
+          {% for page in page_obj.paginator %}
+          <li class="page-item">
+            <a 
+                class="page-link {% if page.number == request.GET.page %}bg-primary text-white{% endif %}"
+                href="?page={{ page.number }}">{{ page.number }}</a>
+            </li>
+            {% endfor %}
+          <li class="page-item">
+                <a
+                    class="page-link"
+                    href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
+          </li>
+        </ul>
+    </nav>
+            
